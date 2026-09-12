@@ -15,7 +15,7 @@ jobs:
         os: [windows-latest, macos-latest, ubuntu-latest]
         lang: [zh, en]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - uses: actions/setup-python@v5
         with:
@@ -58,3 +58,4 @@ jobs:
       - uses: softprops/action-gh-release@v2
         with:
           files: dist/*
+          draft: true
