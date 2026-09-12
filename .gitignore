@@ -1,0 +1,36 @@
+# ---- 隐私数据: 不上传任何实际照片与记录 ----
+test photos/
+test photos_fixed/
+*.HEIC
+*.heic
+*.jpg
+*.jpeg
+*.png
+*.mov
+*.mp4
+*.MOV
+*.MP4
+
+# CSV 内容不上传, 仅保留目录占位
+csv/*
+!csv/.gitkeep
+merged_photo_details.csv
+
+# exiftool 程序内容不上传, 仅保留目录占位
+exiftool/*
+!exiftool/.gitkeep
+
+# 本机编辑器历史
+.history/
+
+# Python
+__pycache__/
+*.pyc
+
+# PyInstaller / 打包
+build/
+dist/
+*.spec
+
+# 日志
+*.log
