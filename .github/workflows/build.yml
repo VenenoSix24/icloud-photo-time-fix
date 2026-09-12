@@ -58,5 +58,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('v0.0.0-draft.run{0}', github.run_number) }}
-        run: |
-          gh release create "$TAG" --draft --target "$GITHUB_SHA" --title "$TAG" dist/*
+        run: gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --draft --generate-notes --title "$TAG" dist/*
