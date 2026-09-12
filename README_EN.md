@@ -9,6 +9,19 @@ Some photos downloaded from iCloud lose their EXIF capture times, but iCloud exp
 
 **[中文说明](README.md)**
 
+<p align="center">
+  <img src="docs/cover.png" alt="iCloud Photo Time Fixer" width="700">
+</p>
+
+## Preview
+
+<table>
+  <tr>
+    <td width="50%" align="center"><img src="docs/p1.png" alt="Running" width="100%"></td>
+    <td width="50%" align="center"><img src="docs/p2.png" alt="Result" width="100%"></td>
+  </tr>
+</table>
+
 ## Features
 
 - Graphical folder pickers for input/output; originals are never modified

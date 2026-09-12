@@ -11,6 +11,9 @@ test photos_fixed/
 *.MOV
 *.MP4
 
+# README 用的截图除外
+!docs/*.png
+
 # CSV 内容不上传, 仅保留目录占位
 csv/*
 !csv/.gitkeep

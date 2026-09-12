@@ -9,6 +9,19 @@
 
 **[English](README_EN.md)**
 
+<p align="center">
+  <img src="docs/cover.png" alt="iCloud 照片时间修正工具" width="700">
+</p>
+
+## 预览
+
+<table>
+  <tr>
+    <td width="50%" align="center"><img src="docs/p1.png" alt="运行界面" width="100%"></td>
+    <td width="50%" align="center"><img src="docs/p2.png" alt="执行结果" width="100%"></td>
+  </tr>
+</table>
+
 ## 功能
 
 - 图形窗口选择输入/输出目录，原文件不会被修改
