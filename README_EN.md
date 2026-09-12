@@ -27,11 +27,7 @@ python fix_photo_time.py        # Chinese
 
 Follow the prompts to pick folders and a timezone. You can also run `python fix_photo_time.py --merge` to merge CSVs only.
 
-No Python? The GitHub Actions workflow provides packed executables for Windows / macOS / Linux.
-
-## Packed binaries
-
-After pushing a `v*` tag, CI builds 6 executables (3 OS × zh/en) and uploads them to a **draft release** (nothing is published automatically; the developer reviews and publishes it manually). The `csv/` and `exiftool/` folders are still required next to the executable.
+No Python? Download the executables from [Releases](https://github.com/VenenoSix24/icloud-photo-time-fix/releases). The `csv/` and `exiftool/` folders are still required next to the executable.
 
 ## Layout
 

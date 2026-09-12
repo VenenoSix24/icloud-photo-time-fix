@@ -1,11 +1,8 @@
 # -*- coding: utf-8 -*-
 """System folder picker with manual-input fallback."""
 import os
-
 from .i18n import t
 from .console import ok, warn, err, ask
-
-# ---------------------------------------------------------------- folder picker
 def pick_folder(prompt_text):
     """System folder picker; returns None on cancel / unsupported."""
     try:
@@ -20,7 +17,6 @@ def pick_folder(prompt_text):
     except Exception as e:
         warn(t("pick_fallback", e=e))
         return None
-
 def choose_folder_with_fallback(prompt_text):
     while True:
         picked = pick_folder(prompt_text)
@@ -33,4 +29,3 @@ def choose_folder_with_fallback(prompt_text):
             return os.path.normpath(manual)
         if manual:
             err(t("bad_dir"))
-

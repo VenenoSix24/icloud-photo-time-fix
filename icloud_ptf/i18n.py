@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 """UI strings (zh / en). Language: PTF_LANG env or "en"/"zh" CLI arg."""
 import os, sys
-
-# ---------------------------------------------------------------- language
 LANG = os.environ.get("PTF_LANG", "zh")
 if len(sys.argv) > 1 and sys.argv[1].lower() in ("en", "zh"):
     LANG = sys.argv[1].lower()
-
 S = {
 "zh": {
  "banner": "iCloud 照片时间修正工具  ·  Photo Time Fixer",
@@ -151,7 +148,5 @@ S = {
  "err_chunk": "Some files in this batch may have failed; spot-check with exiftool",
 },
 }
-
 def t(key, **kw):
     return S[LANG][key].format(**kw) if kw else S[LANG][key]
-

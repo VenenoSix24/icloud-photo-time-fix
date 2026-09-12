@@ -2,7 +2,6 @@
 """Main application flow."""
 import csv, os, shutil
 from datetime import datetime, timedelta, timezone
-
 from .i18n import t, LANG
 from .console import banner, title, ok, warn, err, info, ask, pause, C
 from .picker import choose_folder_with_fallback
@@ -10,23 +9,19 @@ from .merge import merge_csv_files
 from .paths import base_dir
 from .timeutil import parse_gmt, TZ_NAMES_ZH, TZ_NAMES_EN, TZ_HOURS
 from .exiftool import choose_exiftool, run_exiftool_batch
-
 def load_records(merged_csv):
     records = {}
     with open(merged_csv, encoding="utf-8-sig", newline="") as f:
         for row in csv.DictReader(f):
             name = row["imgName"].strip().lower()
             rec = {"orig": row["originalCreationDate"].strip()}
-            records[name] = rec                                     # full name
-            records.setdefault(os.path.splitext(name)[0], rec)      # stem fallback
+            records[name] = rec
+            records.setdefault(os.path.splitext(name)[0], rec)
     return records
-
-
 def ensure_merged_csv(force_merge=False):
     base = base_dir()
     merged = os.path.join(base, "merged_photo_details.csv")
     csv_dir = os.path.join(base, "csv")
-
     title(t("step", n=1, what="CSV"))
     if os.path.isfile(merged) and not force_merge:
         ok(t("merged_found"))
@@ -38,7 +33,6 @@ def ensure_merged_csv(force_merge=False):
         return None
     elif not force_merge and not os.path.isfile(merged):
         info(t("no_merged"))
-
     info(t("merging"))
     try:
         n = merge_csv_files(base, csv_dir, merged)
@@ -47,19 +41,17 @@ def ensure_merged_csv(force_merge=False):
     except Exception as e:
         err(f"{t('merge_fail')}: {e}")
         return None
-
 def merge_only():
     """--merge: merge csv/ into merged_photo_details.csv and exit."""
     banner()
     ensure_merged_csv(force_merge=True)
     pause()
-
 def choose_timezone():
     title(t("tz_list"))
     names = TZ_NAMES_ZH if LANG == "zh" else TZ_NAMES_EN
     for i, name in enumerate(names, 1):
         print(f"      {i:>2}. {name}")
-    default_idx = 5  # UTC+8 Beijing
+    default_idx = 5
     while True:
         raw = input(f"  {C.MAGENTA}?{C.RESET} {t('tz_q')} "
                     f"{C.DIM}[Enter = {default_idx}. {names[default_idx-1]}]{C.RESET}: ").strip()
@@ -73,10 +65,8 @@ def choose_timezone():
             ok(t("tz_ok", n=names[idx - 1]))
             return timezone(timedelta(hours=TZ_HOURS[idx - 1]))
         warn(t("tz_range"))
-
 def main():
     banner()
-
     merged_csv = ensure_merged_csv()
     if not merged_csv:
         input(f"\n{t('press_enter')}")
@@ -84,15 +74,11 @@ def main():
     info(t("loading"))
     records = load_records(merged_csv)
     ok(t("loaded", n=len(records)))
-
-    # input dir
     title(t("step", n=2, what=t("pick_input")))
     info(t("pick_input_hint"))
     in_dir = choose_folder_with_fallback(t("pick_input"))
     if not os.listdir(in_dir):
         warn(t("empty_dir"))
-
-    # output dir
     title(t("step", n=3, what=t("pick_output")))
     print(t("out_menu"))
     while True:
@@ -111,16 +97,12 @@ def main():
             break
         continue
     ok(f"{out_dir}")
-
     exe = choose_exiftool()
     tz = choose_timezone()
-
-    # recursive scan
     title(t("scan"))
     jobs, unmatched = [], []
     out_norm = os.path.normpath(out_dir)
     for root, dirs, files in os.walk(in_dir):
-        # never descend into the output folder if it lives under the input
         if os.path.normpath(root) == os.path.normpath(in_dir):
             dirs[:] = [d for d in dirs
                        if os.path.normpath(os.path.join(root, d)) != out_norm]
@@ -141,7 +123,6 @@ def main():
                 continue
             dst = os.path.join(out_dir, rel)
             jobs.append((src, dst, ts, rec["orig"]))
-
     ok(t("scan_result", m=len(jobs), u=len(unmatched)))
     if jobs:
         ok(t("scan_example", f=jobs[0][0], t=jobs[0][2]))
@@ -153,8 +134,6 @@ def main():
         err(t("no_jobs"))
         input(f"\n{t('press_enter')}")
         return
-
-    # confirm
     title(t("confirm_title"))
     print(f"  {t('confirm_body', n=len(jobs))}")
     print(f"  {t('confirm_out', d=out_dir)}")
@@ -162,15 +141,11 @@ def main():
         info(t("cancelled"))
         input(f"\n{t('press_enter')}")
         return
-
-    # execute: copy all, then batch exiftool
     title(t("running"))
     for src, dst, _, _ in jobs:
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         shutil.copy2(src, dst)
     results = run_exiftool_batch(exe, [(dst, ts) for _, dst, ts, _ in jobs])
-
-    # report
     report_path = os.path.join(out_dir, t("report_name", ts=f"{datetime.now():%Y%m%d_%H%M%S}"))
     with open(report_path, "w", encoding="utf-8-sig", newline="") as f:
         w = csv.writer(f)
@@ -182,7 +157,6 @@ def main():
                         ts if good else "", orig, msg])
         for u in unmatched:
             w.writerow([u, t("st_unmatched"), "", "", t("err_no_csv_record")])
-
     done = sum(1 for g, _ in results.values() if g)
     failed = len(results) - done
     title(t("done_title"))
@@ -193,9 +167,7 @@ def main():
         err(t("done_failed", n=failed))
     ok(t("report_path", f=os.path.basename(report_path)))
     info(t("report_note"))
-
     input(f"\n{t('press_enter')}")
-
 if __name__ == "__main__":
     try:
         main()

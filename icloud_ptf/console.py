@@ -1,29 +1,42 @@
 # -*- coding: utf-8 -*-
 """Terminal UI helpers."""
 import os
+import unicodedata
 
 from .i18n import t
 
-# ---------------------------------------------------------------- console UI
-os.system("")  # enable ANSI escapes on Windows
+os.system("")
+
 
 class C:
     RESET = "\033[0m"; BOLD = "\033[1m"; DIM = "\033[2m"
     RED = "\033[91m"; GREEN = "\033[92m"; YELLOW = "\033[93m"
     BLUE = "\033[94m"; MAGENTA = "\033[95m"; CYAN = "\033[96m"
 
+
+def _width(s):
+    return sum(2 if unicodedata.east_asian_width(ch) in "WF" else 1 for ch in s)
+
+
 def banner():
-    print(f"{C.CYAN}{C.BOLD}\n  ╔══════════════════════════════════════════════════════════╗")
-    print(f"  ║        {t('banner').ljust(54)}║")
-    print(f"  ╚══════════════════════════════════════════════════════════╝{C.RESET}")
+    text = t("banner")
+    inner = max(54, _width(text) + 8)
+    bar = "═" * inner
+    pad = " " * (inner - _width(text) - 8)
+    print(f"{C.CYAN}{C.BOLD}\n  ╔{bar}╗")
+    print(f"  ║        {text}{pad}║")
+    print(f"  ╚{bar}╝{C.RESET}")
+
 
 def title(text):
-    print(f"\n{C.BOLD}{C.BLUE}── {text} {C.RESET}" + "─" * max(0, 58 - len(text) * 2))
+    print(f"\n{C.BOLD}{C.BLUE}── {text} {C.RESET}" + "─" * max(0, 58 - _width(text) * 2))
+
 
 def ok(msg):    print(f"  {C.GREEN}✓{C.RESET} {msg}")
 def warn(msg):  print(f"  {C.YELLOW}⚠{C.RESET} {msg}")
 def err(msg):   print(f"  {C.RED}✗{C.RESET} {msg}")
 def info(msg):  print(f"  {C.CYAN}ℹ{C.RESET} {msg}")
+
 
 def ask(prompt, default=None):
     suffix = f" {C.DIM}[Enter = {default}]{C.RESET}" if default else ""
@@ -37,7 +50,6 @@ def ask(prompt, default=None):
 
 
 def pause():
-    """Wait for Enter; tolerate closed stdin (e.g. double-click launches)."""
     try:
         input("\n" + t("press_enter"))
     except EOFError:

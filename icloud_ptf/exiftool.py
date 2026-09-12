@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 """ExifTool location and batch writing."""
 import csv, os, subprocess, sys, tempfile
-
 from .i18n import t
 from .console import title, ok, err, info, ask, C
 from .paths import base_dir
 from .timeutil import TZ_SUFFIX
-
 def choose_exiftool():
     title(t("exiftool_title"))
     default_exe = os.path.join(base_dir(), "exiftool",
@@ -16,12 +14,10 @@ def choose_exiftool():
         ans = input(f"  {C.MAGENTA}?{C.RESET} {t('use_default')} ").strip().lower()
         if ans in ("", "y"):
             return default_exe
-
     err(t("exiftool_missing", p=default_exe))
     info(t("exiftool_site"))
     info(t("exiftool_win") if sys.platform == "win32" else t("exiftool_unix"))
     info(t("exiftool_unix") if sys.platform == "win32" else t("exiftool_win"))
-
     while True:
         raw = ask(t("exiftool_path"), default="")
         exe = raw or default_exe
@@ -29,8 +25,6 @@ def choose_exiftool():
             ok(t("exiftool_ok", p=exe))
             return exe
         err(t("exiftool_bad"))
-
-
 def run_exiftool_batch(exe, jobs):
     """jobs: list of (dst_path, time_str). Writes times via exiftool's CSV
     import (one invocation per chunk, per-file values). Returns dict
@@ -75,4 +69,3 @@ def run_exiftool_batch(exe, jobs):
                 failed = os.path.basename(dst) in out
                 results[dst] = (False, t("err_chunk")) if failed else (True, "")
     return results
-

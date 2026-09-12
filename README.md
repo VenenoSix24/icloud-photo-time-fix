@@ -27,11 +27,7 @@ python fix_photo_time.py en     # English
 
 按提示选择目录和时区即可。也可以运行 `python fix_photo_time.py --merge` 单独合并 CSV。
 
-不想装 Python？GitHub Actions 提供了 Windows / macOS / Linux 的打包版本。
-
-## 打包版本
-
-推送 `v*` 标签后，CI 会自动构建 3 系统 × 中/英文共 6 个可执行文件，并上传到 **Release 草稿**（不自动发布，由开发者手动发布发布说明后上线）。同样需要创建 `csv/` 和 `exiftool/` 文件夹。
+不想装 Python？可执行文件在 [Releases](https://github.com/VenenoSix24/icloud-photo-time-fix/releases) 下载，同样需要 `csv/` 和 `exiftool/` 文件夹。
 
 ## 目录结构
 

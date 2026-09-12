@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """Merge iCloud Photo Details CSVs."""
 import csv, glob, os
-
 def merge_csv_files(base, csv_dir, merged_path):
     """Merge all Photo Details*.csv in csv_dir into merged_path (dedup)."""
     import glob
@@ -25,4 +24,3 @@ def merge_csv_files(base, csv_dir, merged_path):
         w.writeheader()
         w.writerows(rows)
     return len(rows)
-
