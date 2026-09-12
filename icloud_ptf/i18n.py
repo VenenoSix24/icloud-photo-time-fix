@@ -75,6 +75,8 @@ S = {
  "err_parse": "时间解析失败",
  "err_unknown": "未知错误",
  "err_chunk": "本批次中以下文件可能失败, 请用 exiftool 抽查",
+ "ext_mismatch": "扩展名与实际格式不符, 已按真实格式写入",
+ "err_rename": "写入后恢复文件名失败, 请手动检查该文件",
 },
 "en": {
  "banner": "iCloud Photo Time Fixer",
@@ -146,6 +148,8 @@ S = {
  "err_parse": "Failed to parse time",
  "err_unknown": "Unknown error",
  "err_chunk": "Some files in this batch may have failed; spot-check with exiftool",
+ "ext_mismatch": "Extension does not match actual format; written via real format",
+ "err_rename": "Failed to restore the file name after writing; check it manually",
 },
 }
 def t(key, **kw):
