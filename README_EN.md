@@ -1,17 +1,15 @@
 # iCloud Photo Time Fixer
 
+![iCloud Photo Time Fixer](docs/cover.png)
+
 [![Build](https://github.com/VenenoSix24/icloud-photo-time-fix/actions/workflows/build.yml/badge.svg)](https://github.com/VenenoSix24/icloud-photo-time-fix/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
 ![Python](https://img.shields.io/badge/python-3.8%2B-blue)
 
+[English](README_EN.md) | [简体中文](README.md)
+
 Some photos downloaded from iCloud lose their EXIF capture times, but iCloud exports a **Photo Details CSV**. This tool reads the CSV and writes the capture times back into the EXIF/QuickTime tags and file timestamps of your photos/videos in batch, via [ExifTool](https://exiftool.org/).
-
-**[中文说明](README.md)**
-
-<p align="center">
-  <img src="docs/cover.png" alt="iCloud Photo Time Fixer" width="700">
-</p>
 
 ## Preview
 
