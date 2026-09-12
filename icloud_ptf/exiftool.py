@@ -1,26 +1,30 @@
 # -*- coding: utf-8 -*-
 """ExifTool location and batch writing."""
-import csv, os, subprocess, sys, tempfile
+import csv, os, shutil, subprocess, sys, tempfile
 from .i18n import t
 from .console import title, ok, err, info, ask, C
 from .paths import base_dir
 from .timeutil import TZ_SUFFIX
 def choose_exiftool():
     title(t("exiftool_title"))
-    default_exe = os.path.join(base_dir(), "exiftool",
-                               "exiftool.exe" if sys.platform == "win32" else "exiftool")
-    if os.path.isfile(default_exe):
-        ok(t("exiftool_found", p=default_exe))
+    local_exe = os.path.join(base_dir(), "exiftool",
+                             "exiftool.exe" if sys.platform == "win32" else "exiftool")
+    path_exe = shutil.which("exiftool")
+    if path_exe:
+        ok(t("exiftool_ok", p=path_exe))
+        return path_exe
+    if os.path.isfile(local_exe):
+        ok(t("exiftool_found", p=local_exe))
         ans = input(f"  {C.MAGENTA}?{C.RESET} {t('use_default')} ").strip().lower()
         if ans in ("", "y"):
-            return default_exe
-    err(t("exiftool_missing", p=default_exe))
+            return local_exe
+    err(t("exiftool_missing", p=local_exe))
     info(t("exiftool_site"))
     info(t("exiftool_win") if sys.platform == "win32" else t("exiftool_unix"))
     info(t("exiftool_unix") if sys.platform == "win32" else t("exiftool_win"))
     while True:
         raw = ask(t("exiftool_path"), default="")
-        exe = raw or default_exe
+        exe = raw or local_exe
         if os.path.isfile(exe):
             ok(t("exiftool_ok", p=exe))
             return exe

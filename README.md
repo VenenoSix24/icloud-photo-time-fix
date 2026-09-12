@@ -2,7 +2,7 @@
 
 [![Build](https://github.com/VenenoSix24/icloud-photo-time-fix/actions/workflows/build.yml/badge.svg)](https://github.com/VenenoSix24/icloud-photo-time-fix/actions/workflows/build.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
+![Platform](<https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey>)
 ![Python](https://img.shields.io/badge/python-3.8%2B-blue)
 
 从 iCloud 下载的部分照片没有 EXIF 拍摄时间，但 iCloud 会导出 **Photo Details CSV**。本工具读取 CSV，通过 [ExifTool](https://exiftool.org/) 把照片/视频的拍摄时间批量写回 EXIF/QuickTime 标签及文件时间戳。
@@ -24,7 +24,7 @@
 
 ```bash
 # 1. 把从 iCloud 导出的 Photo Details*.csv 放入 csv/ 文件夹
-# 2. 把下载的 exiftool 文件解压放入 exiftool/ 文件夹
+# 2. 安装 ExifTool: brew install exiftool，或解压放入 exiftool/ 文件夹
 # 3. 运行
 python fix_photo_time.py        # 中文
 python fix_photo_time.py en     # English
@@ -32,7 +32,18 @@ python fix_photo_time.py en     # English
 
 按提示选择目录和时区即可。也可以运行 `python fix_photo_time.py --merge` 单独合并 CSV。
 
-不想装 Python？可执行文件在 [Releases](https://github.com/VenenoSix24/icloud-photo-time-fix/releases) 下载，同样需要 `csv/` 和 `exiftool/` 文件夹。
+不想装 Python？可执行文件在 [Releases](https://github.com/VenenoSix24/icloud-photo-time-fix/releases) 下载，同样需要 `csv/` 文件夹；ExifTool 可装在系统里（如 `brew install exiftool`），程序会自动查找，找不到时再使用 `exiftool/` 文件夹或手动指定。
+
+### macOS 首次运行
+
+下载的可执行文件没有签名，首次运行需要解除隔离并赋予执行权限：
+
+```bash
+xattr -dr com.apple.quarantine /Users/ivy/Downloads/test/icloud-photo-time-fix-macos-latest-zh
+chmod +x /Users/ivy/Downloads/test/icloud-photo-time-fix-macos-latest-zh
+```
+
+之后双击打开即可（路径换成你自己的下载位置）。
 
 ## 目录结构
 
@@ -46,4 +57,4 @@ python fix_photo_time.py en     # English
 
 ## License
 
-MIT
+[MIT](https://github.com/VenenoSix24/icloud-photo-time-fix?tab=MIT-1-ov-file)

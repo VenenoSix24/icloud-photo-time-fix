@@ -24,7 +24,7 @@ Requires [Python 3.8+](https://www.python.org/) and [ExifTool](https://exiftool.
 
 ```bash
 # 1. Put the exported Photo Details*.csv files into the csv/ folder
-# 2. Extract the downloaded exiftool package into the exiftool/ folder
+# 2. Install ExifTool: brew install exiftool, or extract it into the exiftool/ folder
 # 3. Run
 python fix_photo_time.py en     # English
 python fix_photo_time.py        # Chinese
@@ -32,7 +32,18 @@ python fix_photo_time.py        # Chinese
 
 Follow the prompts to pick folders and a timezone. You can also run `python fix_photo_time.py --merge` to merge CSVs only.
 
-No Python? Download the executables from [Releases](https://github.com/VenenoSix24/icloud-photo-time-fix/releases). The `csv/` and `exiftool/` folders are still required next to the executable.
+No Python? Download the executables from [Releases](https://github.com/VenenoSix24/icloud-photo-time-fix/releases). The `csv/` folder is still required next to the executable; ExifTool can be installed system-wide (e.g. `brew install exiftool`) and is found automatically, with the `exiftool/` folder and manual path as fallbacks.
+
+### First run on macOS
+
+The downloaded executable is unsigned; remove the quarantine flag and make it executable first:
+
+```bash
+xattr -dr com.apple.quarantine /Users/ivy/Downloads/test/icloud-photo-time-fix-macos-latest-zh
+chmod +x /Users/ivy/Downloads/test/icloud-photo-time-fix-macos-latest-zh
+```
+
+Then double-click to open it (adjust the path to your download location).
 
 ## Layout
 
