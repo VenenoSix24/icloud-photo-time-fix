@@ -15,16 +15,17 @@ class C:
 
 
 def _width(s):
-    return sum(2 if unicodedata.east_asian_width(ch) in "WF" else 1 for ch in s)
+    return sum(2 if unicodedata.east_asian_width(ch) in "WFA" else 1 for ch in s)
 
 
 def banner():
-    text = t("banner")
-    inner = max(54, _width(text) + 8)
+    lines = [t("banner"), "By VenenoSix24  ·  https://github.com/VenenoSix24"]
+    inner = max(54, max(_width(x) for x in lines) + 8)
     bar = "═" * inner
-    pad = " " * (inner - _width(text) - 8)
     print(f"{C.CYAN}{C.BOLD}\n  ╔{bar}╗")
-    print(f"  ║        {text}{pad}║")
+    for text in lines:
+        pad = " " * (inner - _width(text) - 8)
+        print(f"  ║        {text}{pad}║")
     print(f"  ╚{bar}╝{C.RESET}")
 
 
@@ -32,10 +33,10 @@ def title(text):
     print(f"\n{C.BOLD}{C.BLUE}── {text} {C.RESET}" + "─" * max(0, 58 - _width(text) * 2))
 
 
-def ok(msg):    print(f"  {C.GREEN}✓{C.RESET} {msg}")
-def warn(msg):  print(f"  {C.YELLOW}⚠{C.RESET} {msg}")
-def err(msg):   print(f"  {C.RED}✗{C.RESET} {msg}")
-def info(msg):  print(f"  {C.CYAN}ℹ{C.RESET} {msg}")
+def ok(msg):    print(f"  {C.GREEN}✓ {C.RESET}{msg}")
+def warn(msg):  print(f"  {C.YELLOW}⚠ {C.RESET}{msg}")
+def err(msg):   print(f"  {C.RED}✗ {C.RESET}{msg}")
+def info(msg):  print(f"  {C.CYAN}ℹ {C.RESET}{msg}")
 
 
 def ask(prompt, default=None):

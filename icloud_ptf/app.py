@@ -22,7 +22,7 @@ def ensure_merged_csv(force_merge=False):
     base = base_dir()
     merged = os.path.join(base, "merged_photo_details.csv")
     csv_dir = os.path.join(base, "csv")
-    title(t("step", n=1, what="CSV"))
+    title(t("step", n=2, what="CSV"))
     if os.path.isfile(merged) and not force_merge:
         ok(t("merged_found"))
         ans = input(f"  {C.MAGENTA}?{C.RESET} {t('remerge_q')}: ").strip().lower()
@@ -67,6 +67,7 @@ def choose_timezone():
         warn(t("tz_range"))
 def main():
     banner()
+    exe = choose_exiftool()
     merged_csv = ensure_merged_csv()
     if not merged_csv:
         input(f"\n{t('press_enter')}")
@@ -74,12 +75,12 @@ def main():
     info(t("loading"))
     records = load_records(merged_csv)
     ok(t("loaded", n=len(records)))
-    title(t("step", n=2, what=t("pick_input")))
+    title(t("step", n=3, what=t("pick_input")))
     info(t("pick_input_hint"))
     in_dir = choose_folder_with_fallback(t("pick_input"))
     if not os.listdir(in_dir):
         warn(t("empty_dir"))
-    title(t("step", n=3, what=t("pick_output")))
+    title(t("step", n=4, what=t("pick_output")))
     print(t("out_menu"))
     while True:
         c = input(f"  {C.MAGENTA}?{C.RESET} {t('out_q')} {C.DIM}[Enter = 1]{C.RESET}: ").strip()
@@ -97,7 +98,6 @@ def main():
             break
         continue
     ok(f"{out_dir}")
-    exe = choose_exiftool()
     tz = choose_timezone()
     title(t("scan"))
     jobs, unmatched = [], []
