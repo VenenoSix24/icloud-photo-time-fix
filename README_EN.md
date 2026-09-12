@@ -27,7 +27,13 @@ Some photos downloaded from iCloud lose their EXIF capture times, but iCloud exp
 - GMT → local timezone conversion
 - Recursive scanning with folder structure preserved
 - Fast batch writing via ExifTool CSV import; supports photos and videos
-- Generates a per-file fix report CSV in the output folder
+- Detects files whose extension does not match their actual format (e.g. a .png that is really a JPEG) and writes them via the real format without renaming
+- Automatically retries files with minor metadata problems
+- Generates a per-file fix report CSV in the output folder, with the exact ExifTool error for any failure
+
+### Files that cannot be processed
+
+If a file itself is corrupt (e.g. an interrupted HEIC download with a truncated internal atom), ExifTool cannot safely write to it; the report records the exact error and the file must be re-downloaded from iCloud before running this tool again.
 
 ## Usage
 

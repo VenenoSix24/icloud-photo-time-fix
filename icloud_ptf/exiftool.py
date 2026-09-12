@@ -58,7 +58,8 @@ def run_exiftool_batch(exe, jobs):
     supports_birthtime = sys.platform in ("win32", "darwin")
 
     def run_write(pairs, extra=()):
-        """One exiftool CSV-import invocation; returns (rc, error_map)."""
+        """One exiftool CSV-import invocation; extra args (e.g. -m) are
+        inserted before the CSV import. Returns (rc, error_map)."""
         fd, csv_path = tempfile.mkstemp(suffix=".csv")
         fd2, args_path = tempfile.mkstemp(suffix=".args")
         try:
@@ -139,8 +140,6 @@ def run_exiftool_batch(exe, jobs):
                 failed.append((dst, ts, msg))
         if not failed:
             continue
-        # retry the failures once with -m (ignore minor errors, e.g. a bad
-        # IFD directory that exiftool can drop)
         renames2, retry = [], []
         for dst, ts, msg in failed:
             tmp = alias_rev = None
