@@ -15,17 +15,19 @@ class C:
 
 
 def _width(s):
-    return sum(2 if unicodedata.east_asian_width(ch) in "WFA" else 1 for ch in s)
+    return sum(2 if unicodedata.east_asian_width(ch) in "WF" else 1 for ch in s)
 
 
 def banner():
     lines = [t("banner"), "By VenenoSix24  ·  https://github.com/VenenoSix24"]
-    inner = max(54, max(_width(x) for x in lines) + 8)
+    inner = max(56, max(_width(x) for x in lines) + 10)
     bar = "═" * inner
     print(f"{C.CYAN}{C.BOLD}\n  ╔{bar}╗")
     for text in lines:
-        pad = " " * (inner - _width(text) - 8)
-        print(f"  ║        {text}{pad}║")
+        total = inner - _width(text)
+        left = max(4, (total - 2) // 2 + 1)
+        pad = " " * max(2, total - left)
+        print(f"  ║{' ' * left}{text}{pad}║")
     print(f"  ╚{bar}╝{C.RESET}")
 
 
