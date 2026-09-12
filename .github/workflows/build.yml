@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
 
@@ -38,24 +38,25 @@ jobs:
           mv dist/icloud-photo-time-fix icloud-photo-time-fix-${{ matrix.os }}-${{ matrix.lang }}
           chmod +x icloud-photo-time-fix-${{ matrix.os }}-${{ matrix.lang }}
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v5
         with:
           name: icloud-photo-time-fix-${{ matrix.os }}-${{ matrix.lang }}
           path: icloud-photo-time-fix-*
 
   release:
-    if: startsWith(github.ref, 'refs/tags/')
     needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v6
         with:
           merge-multiple: true
           path: dist
 
-      - uses: softprops/action-gh-release@v2
-        with:
-          files: dist/*
-          draft: true
+      - name: Create draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || format('v0.0.0-draft.run{0}', github.run_number) }}
+        run: |
+          gh release create "$TAG" --draft --target "$GITHUB_SHA" --title "$TAG" dist/*

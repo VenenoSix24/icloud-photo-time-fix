@@ -1,5 +1,10 @@
 # iCloud 照片时间修正工具
 
+[![Build](https://github.com/VenenoSix24/icloud-photo-time-fix/actions/workflows/build.yml/badge.svg)](https://github.com/VenenoSix24/icloud-photo-time-fix/actions/workflows/build.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
+![Python](https://img.shields.io/badge/python-3.8%2B-blue)
+
 从 iCloud 下载的部分照片没有 EXIF 拍摄时间，但 iCloud 会导出 **Photo Details CSV**。本工具读取 CSV，通过 [ExifTool](https://exiftool.org/) 把照片/视频的拍摄时间批量写回 EXIF/QuickTime 标签及文件时间戳。
 
 **[English](README_EN.md)**
