@@ -1,0 +1,60 @@
+name: Build
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: ${{ matrix.os }} / ${{ matrix.lang }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+        lang: [zh, en]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install pyinstaller
+
+      - name: Build executable
+        env:
+          PTF_LANG: ${{ matrix.lang }}
+        run: pyinstaller --onefile --clean --name icloud-photo-time-fix fix_photo_time.py
+
+      - name: Rename artifact (Windows)
+        if: runner.os == 'Windows'
+        run: Move-Item dist/icloud-photo-time-fix.exe icloud-photo-time-fix-${{ matrix.os }}-${{ matrix.lang }}.exe
+
+      - name: Rename artifact (macOS / Linux)
+        if: runner.os != 'Windows'
+        run: |
+          mv dist/icloud-photo-time-fix icloud-photo-time-fix-${{ matrix.os }}-${{ matrix.lang }}
+          chmod +x icloud-photo-time-fix-${{ matrix.os }}-${{ matrix.lang }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: icloud-photo-time-fix-${{ matrix.os }}-${{ matrix.lang }}
+          path: icloud-photo-time-fix-*
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/')
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          merge-multiple: true
+          path: dist
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
