@@ -32,18 +32,19 @@ python fix_photo_time.py        # Chinese
 
 Follow the prompts to pick folders and a timezone. You can also run `python fix_photo_time.py --merge` to merge CSVs only.
 
-No Python? Download the executables from [Releases](https://github.com/VenenoSix24/icloud-photo-time-fix/releases). The `csv/` folder is still required next to the executable; ExifTool can be installed system-wide (e.g. `brew install exiftool`) and is found automatically, with the `exiftool/` folder and manual path as fallbacks.
+No Python? Download the executables from [Releases](https://github.com/VenenoSix24/icloud-photo-time-fix/releases). The `csv/` folder is still required; ExifTool can be installed system-wide (e.g. `brew install exiftool` on macOS) and is found automatically, with the `exiftool/` folder and manual path as fallbacks.
 
 ### First run on macOS
 
-The downloaded executable is unsigned; remove the quarantine flag and make it executable first:
+The downloaded executable is unsigned; on first run you need to remove the quarantine flag and grant execute permission. Open Terminal:
 
 ```bash
-xattr -dr com.apple.quarantine /Users/ivy/Downloads/test/icloud-photo-time-fix-macos-latest-zh
-chmod +x /Users/ivy/Downloads/test/icloud-photo-time-fix-macos-latest-zh
+# Type the command before /xxx (mind the space), then drag the downloaded file onto the window
+xattr -dr com.apple.quarantine /xxx/icloud-photo-time-fix-macos-latest-zh
+chmod +x /xxx/icloud-photo-time-fix-macos-latest-zh
 ```
 
-Then double-click to open it (adjust the path to your download location).
+After that, double-click to open it.
 
 ## Layout
 

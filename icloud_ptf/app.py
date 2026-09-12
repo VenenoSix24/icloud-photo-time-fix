@@ -28,11 +28,16 @@ def ensure_merged_csv(force_merge=False):
         ans = input(f"  {C.MAGENTA}?{C.RESET} {t('remerge_q')}: ").strip().lower()
         if ans != "y":
             return merged
-    elif not os.path.isdir(csv_dir) and not os.path.isfile(merged):
-        err(t("no_csv_dir", d=csv_dir))
-        return None
-    elif not force_merge and not os.path.isfile(merged):
+    elif not os.path.isfile(merged):
         info(t("no_merged"))
+    while True:
+        has_csv = os.path.isdir(csv_dir) and any(
+            n.lower().endswith(".csv") for n in os.listdir(csv_dir))
+        if has_csv:
+            break
+        os.makedirs(csv_dir, exist_ok=True)
+        warn(t("csv_wait", d=csv_dir))
+        pause()
     info(t("merging"))
     try:
         n = merge_csv_files(base, csv_dir, merged)

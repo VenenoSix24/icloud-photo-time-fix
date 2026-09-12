@@ -32,18 +32,19 @@ python fix_photo_time.py en     # English
 
 按提示选择目录和时区即可。也可以运行 `python fix_photo_time.py --merge` 单独合并 CSV。
 
-不想装 Python？可执行文件在 [Releases](https://github.com/VenenoSix24/icloud-photo-time-fix/releases) 下载，同样需要 `csv/` 文件夹；ExifTool 可装在系统里（如 `brew install exiftool`），程序会自动查找，找不到时再使用 `exiftool/` 文件夹或手动指定。
+不想装 Python？可执行文件在 [Releases](https://github.com/VenenoSix24/icloud-photo-time-fix/releases) 下载，但同样需要 `csv/` 文件夹；ExifTool 可装在系统里（如 macOS 上 `brew install exiftool`），程序会自动查找，找不到时再使用 `exiftool/` 文件夹或手动指定。
 
 ### macOS 首次运行
 
-下载的可执行文件没有签名，首次运行需要解除隔离并赋予执行权限：
+下载的可执行文件没有签名，首次运行需要解除隔离并赋予执行权限，打开终端：
 
 ```bash
-xattr -dr com.apple.quarantine /Users/ivy/Downloads/test/icloud-photo-time-fix-macos-latest-zh
-chmod +x /Users/ivy/Downloads/test/icloud-photo-time-fix-macos-latest-zh
+# 输入 /xxx 前方的命令，注意有空格，然后将下载的文件拖过去即可
+xattr -dr com.apple.quarantine /xxx/icloud-photo-time-fix-macos-latest-zh
+chmod +x /xxx/icloud-photo-time-fix-macos-latest-zh
 ```
 
-之后双击打开即可（路径换成你自己的下载位置）。
+执行后双击打开即可。
 
 ## 目录结构
 
